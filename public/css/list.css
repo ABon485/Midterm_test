@@ -1,0 +1,41 @@
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .table {
+        margin-top: 20px;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+    }
+
+    .table img {
+        width: 70px;
+        height: auto;
+        border-radius: 5px;
+    }
+
+    .btn-primary, .btn-success, .btn-info, .btn-danger {
+        margin: 5px;
+    }
+
+    .create {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .search {
+        padding: 5px 10px;
+        width: 300px;
+        border-radius: 20px;
+        border: 1px solid #ddd;
+    }

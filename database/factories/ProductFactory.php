@@ -25,9 +25,10 @@ class ProductFactory extends Factory
     
         return [
             'description' => $faker->sentence,
-            'image' => 'product-'.rand(1,6).'.png',
+            'image' => 'product-'.rand(1,10).'.png',
             'Name' => $faker->Name,
             'Price' => $faker->randomFloat(2, 10, 100),
+            'Category_id' => rand(1,3)
         ];
     }
 }

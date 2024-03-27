@@ -15,7 +15,7 @@
 <body>
     <div class="container">
         <h2 class="py-5 d-flex text-align-center justify-content-center">Add Products</h2>
-        <form action="" method="POST" class="py-5 ml-5" enctype="multipart/form-data">
+        <form action="{{route('product.create')}}" method="POST" class="py-5 ml-5" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="model" class="@error('model') text-danger @enderror">Name</label>
@@ -37,6 +37,14 @@
                 <label for="Price" class="@error('Price') text-danger @enderror">Price</label>
                 <input type="text" class="form-control @error('Price') is-invalid @enderror" id="Price" name="Price" value="{{ old('Price') }}">
                 @error('Price')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="Category_id" class="@error('Category_id') text-danger @enderror">Category_id</label>
+                <input type="text" class="form-control @error('Category_id') is-invalid @enderror" id="PricCategory_ide" name="Category_id" value="{{ old('Category_id') }}">
+                @error('Category_id')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>

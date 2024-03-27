@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 use App\Models\Product;
+use Dotenv\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Http\RedirectResponse;
 class ProductController extends Controller
 {
     // public $data = [];
@@ -18,6 +19,14 @@ class ProductController extends Controller
         $products = product::all();
         // $this->data['title'] = 'sản phẩm';
         return view('client.shop.shop',compact('products'));
+    }
+    public function getAllproduct(Request $request){
+        $products = product::all();
+        if(isset($request->search)){
+            // dd($request->search);
+            $products = product::where('name','like','%'.$request->search.'%')->get();
+        }
+        return view('Admin.ListProduct',compact('products'));
     }
     public function product(){
         // $this->data['title'] = 'sản phẩm';
@@ -36,30 +45,30 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
         // $mfList = Mf::all();
-        // return view('product-create',compact('mfList'));
+        return view('Admin.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request):RedirectResponse
     {
-        
         $validatedData = $request->validate([
-            'Name' => 'required|max:255|unique:products,Name',
+            'Name' => 'required|max:255',
             'description' => 'required|max:255',
-            'Price' => 'required|decimal',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'Price' => 'required|numeric',
+            'Category_id' => 'required|numeric',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,jfif|max:2048', 
         ]);
-        
-        //
+
         $product = new product();
 
         $product->Name = $request->Name;
         $product->description = $request->description;
         $product->Price = $request->Price;
+        $product->Category_id = $request->Category_id;
+
 
         $file = $request->file('image');
             $name =time().'_'.$file->getClientOriginalName();
@@ -67,8 +76,8 @@ class ProductController extends Controller
             $file->move($destinationPath,$name);
             $product->image=$name;
             $product->save();
-            session()->flash('success', 'Thêm xe thành công!');
-        return redirect()->route('product.store');
+            session()->flash('success', 'Thêm thành công!');
+        return redirect('/admin');
     }
 
     /**
@@ -78,7 +87,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         // Các xử lý khác với biến $product
-        return view('pageWeb.detail', compact('product'));
+        return view('Listproduct', compact('product'));
     }
 
     /**
@@ -90,7 +99,7 @@ class ProductController extends Controller
         }
 
         $product = product::find($id);
-        return view('product-update', compact('product'));
+        return view('Admin.update', compact('product'));
     }
 
    /**
@@ -101,11 +110,23 @@ class ProductController extends Controller
  */
 public function update(Request $request, string $id)
 {
+
+    $validatedData = Validator([
+        'Name' => 'required|max:255',
+        'description' => 'required|max:255',
+        'Price' => 'required|numeric',
+        'Category_id' => 'required|numeric',
+        'image' => 'required|mimes:jpeg, png, jpg, gif, svg, jfif', 
+    ]);
+
+
     $product = product::find($id);
     
     $product->Name = $request->input('Name');
     $product->description = $request->input('description');
     $product->Price = $request->input('Price');
+    $product->Category_id = $request->input('Category_id');
+
 
 
     if ($request->hasFile('image')) {
@@ -116,15 +137,14 @@ public function update(Request $request, string $id)
             $destinationPath = public_path('images');
             $file->move($destinationPath, $name);
             $product->image = $name;
+            $product->save();
+            return redirect('/admin');
         } else {
             return redirect()->back()->with('error', 'Invalid file upload.');
         }
     }
 
-    $product->save();
 
-    return redirect()->route('product.store')
-        ->with('success', 'Cập nhật thông tin san pham thành công.');
 }
 
     /**
@@ -135,6 +155,6 @@ public function update(Request $request, string $id)
         //
         $product = product::find($id);
         $product->delete();
-        return redirect()->route('product.store');
+        return redirect("/admin");
     }
 }

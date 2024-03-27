@@ -26,18 +26,22 @@ use  App\Http\Controllers\ProductController;
 //     return view('Admin/update');
 // });
 Route::get('/',[ProductController::class,'index'])->name('home');
+
 Route::get('/san-pham',[ProductController::class,'getproduct'])->name('product');
+
 Route::get('/chi-tiet/{id}',[ProductController::class,'Detailproduct'])->name('Detailproduct');
-// Route::get('/Admin',[ProductController::class,'store'])->name('Admin');
 
-// Route::resource('home',ProductController::class);
+Route::get('/admin', [ProductController::class, 'getAllproduct']);
 
+Route::get('/admin/create', [ProductController::class, 'create'])->name('product.create');
 
-// Route::get('/',function(){
-//     return view('Admin.ListProduct');
-// });
-// Route::get('/shop',function(){
-//     return view('pageWeb.shop');
-// });
+Route::post('/admin/create', [ProductController::class, 'store'])->name('product.create');
+
+Route::get('/amin/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
+
+Route::post('/amin/update/{id}', [ProductController::class, 'update'])->name('product.update');
+
+Route::post('/admin/delete/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
+
 
 

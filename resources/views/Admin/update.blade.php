@@ -16,7 +16,7 @@
     <div class="container">
         <h2 class="py-5 d-flex text-align-center justify-content-center">Update Product</h2>
 
-        <form method="GET" action="" class="py-5 ml-5" enctype="multipart/form-data">
+        <form method="post" action="{{route('product.update',['id'=>$product->id])}}" class="py-5 ml-5" enctype="multipart/form-data">
             @csrf
             <!-- Rest of your form code -->
             <div class="form-group">
@@ -29,12 +29,12 @@
         
             <div class="form-group">
                 <label for="description" class="@error('description') text-danger @enderror">Description</label>
-                <input type="text" class="form-control @error('description') is-invalid @enderror" id="description" name="description" value="{{ isset($car) ? $car->description :old('description')}}">
+                <input type="text" class="form-control @error('description') is-invalid @enderror" id="description" name="description" value="{{ isset($product) ? $product->description :old('description')}}">
                 @error('description')
                 <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
-        
+
             <div class="form-group">
                 <label for="Price" class="@error('Price') text-danger @enderror">Price</label>
                 <input type="text" class="form-control @error('Price') is-invalid @enderror" id="Price" name="Price" value="{{ isset($product) ? $product->Price :old('Price')}}">
@@ -42,6 +42,15 @@
                 <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+
+            <div class="form-group">
+                <label for="Category_id" class="@error('Category_id') text-danger @enderror">Category_id</label>
+                <input type="text" class="form-control @error('Category_id') is-invalid @enderror" id="Category_id" name="Category_id" value="{{ isset($product) ? $product->Category_id :old('Category_id')}}">
+                @error('Category_id')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
 
             <div class="select">
             

@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
             $product = new ProductFactory();
-            for ($i=0; $i< 6; $i++){
+            for ($i=0; $i< 10; $i++){
                 DB::table('product')->insert($product->definition());
             }
     }
